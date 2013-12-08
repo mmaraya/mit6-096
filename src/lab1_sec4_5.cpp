@@ -24,7 +24,13 @@
 #include <iostream>
 using namespace std;
 
-void section4_1() {
+//
+// 4.1 Writing the factorial program
+// Here is the code for a factorial program. Copy it into your IDE and verify that it
+// compiles.
+//
+void lab1_sec4_1()
+{
     short number;
     cout << "Enter a number: ";
     cin >> number;
@@ -38,13 +44,23 @@ void section4_1() {
     }
 }
 
-void section4_5() {
+//
+// 4.5 Rewriting Factorial II
+// Since we know that only a small number of inputs produce valid outputs, we can
+// alterna­tively hardcode the factorials of these inputs. Rewrite the program from the
+// previous part (“Rewriting Factorial”) using a switch statement to demonstrate for inputs
+// up to 10 how you would do this. (Of course, the code for inputs above 10 would basically
+// be the same, but you do not need to go through the work of finding all those large
+// factorials.)
+//
+int main(int argc, const char *argv[])
+{
     short number;
     cout << "Enter a number: ";
     cin >> number;
     if (number < 0) {
         cout << number << " is not a non-negative integer\n";
-        return;
+        return 1;
     }
     unsigned int accumulator = 1;
     switch (number) {
@@ -79,9 +95,9 @@ void section4_5() {
             accumulator = 3628800;
             break;
         default:
-            for(; number > 0; accumulator *= number--);
+            for(int i = number; i > 0; accumulator *= i--);
     }
 
-    cout << "The factorial of " << number << " is ";
-    cout << accumulator << ".\n";
+    cout << "The factorial of " << number << " is " << accumulator << ".\n";
+    return 0;
 }
