@@ -24,17 +24,34 @@
 #include <iostream>
 using namespace std;
 
-void section2_2(int n)
+//
+// 2.2 Hello World II
+// Write a program that outputs “Hello, World!” n times (where n is a nonnegative
+// integer that the user will input) with:
+//
+// • a for loop.
+// • a while loop.
+// • a do...while loop.
+//
+int main(int argc, const char *argv[])
 {
+    int n {0};
+    
+    cout << "Please enter the number of times to repeat: ";
+    cin >> n;
+    
+    // for loop
     for (int i = 0; i < n; i++) {
         cout << "Hello, World II A!\n";
     }
     
+    // while loop
     int j = n;
     while(j-- > 0) {
         cout << "Hello, World II B!\n";
     }
     
+    // do ... while
     int k = n;
     if (k > 0) {
         do {
@@ -42,5 +59,5 @@ void section2_2(int n)
         } while (--k > 0);
     }
     
-    return;
+    return 0;
 }
