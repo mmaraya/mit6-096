@@ -24,6 +24,9 @@
 #include <iostream>
 using namespace std;
 
+//
+// Return true if the supplied number is prime, false otherwise
+//
 bool isPrime(int number)
 {
     // check for negatvies, 0, 1 and 2
@@ -43,17 +46,28 @@ bool isPrime(int number)
         }
     }
     
+    // if there are no other divisors, then it is prime
     return true;
 }
 
-void section3_3()
+//
+// 3.3 Prime Numbers
+// Write a program to read a number N from the user and then find the first N primes.
+// A prime number is a number that only has two divisors, one and itself.
+//
+int main(int argc, const char *argv[])
 {
     int index = 0;
     cout << "Enter number of primes: ";
     cin >> index;
     
-    if (index <= 0) return;
+    // validate input
+    if (index <= 0) {
+        cout << "Invalid entry: number of primes must be greater than 0\n";
+        return 1;
+    }
     
+    // loop until we have reached the requested number of primes
     for (int i = 0, j = 0; j < index; i++) {
         if (isPrime(i)) {
             cout << i << ", ";
@@ -62,5 +76,5 @@ void section3_3()
     }
     cout << "\n";
     
-    return;
+    return 0;
 }
