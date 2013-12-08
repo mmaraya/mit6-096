@@ -24,19 +24,33 @@
 #include <iostream>
 using namespace std;
 
-void section3_4_1() {
+//
+// 3.4.1 Ternary operator
+// Write a program that loops indefinitely. In each iteration of the loop, read in an
+// integer N (declared as an int) that is inputted by a user, output N5 if N is
+// nonnegative and divisible by 5, and -1 otherwise. Use the ternary operator (?:) to
+// accomplish this. (Hint: the modulus operator may be useful.)
+//
+void lab1_sec3_4_1() {
     // infinite loop
     do {
         int input;
+        cout << "Enter an integer: ";
         cin >> input;
         cout << ((input > 0 && input % 5 == 0) ? input / 5 : -1) << '\n';
     } while (true);
 }
 
-void section3_4_2() {
+//
+// 3.4.2 continue
+// Modify the code from 3.4.1 so that if the condition fails, nothing is printed. Use an
+// if and a continue command (instead of the ternary operator) to accomplish this.
+//
+void lab1_sec3_4_2() {
     // infinite loop
     do {
         int input;
+        cout << "Enter an integer: ";
         cin >> input;
         if ((input < 0 || input % 5 != 0)) {
             continue;
@@ -45,13 +59,19 @@ void section3_4_2() {
     } while (true);
 }
 
-void section3_4_3() {
+//
+// 3.4.3 break
+// Modify the code from 3.4.2 to let the user break out of the loop by entering -1
+// or any negative number. Before the program exits, output the string “Goodbye!”.
+//
+void lab1_sec3_4_3() {
     // infinite loop
     do {
         int input;
+        cout << "Enter an integer: ";
         cin >> input;
         if (input == -1) {
-            cout << "Goodbye!";
+            cout << "Goodbye!\n";
             break;
         }
         if ((input < 0 || input % 5 != 0)) {
@@ -60,4 +80,16 @@ void section3_4_3() {
 
         cout << (input / 5) << '\n';
     } while (true);
+}
+
+//
+// Execute all functions in Lab 1, Sec 3.4
+// The first two functions are commented out since they require a break to exit
+//
+int main(int argc, const char *argv[])
+{
+    //lab1_sec3_4_1();
+    //lab1_sec3_4_2();
+    lab1_sec3_4_3();
+    return 0;
 }
