@@ -32,8 +32,9 @@ using namespace std;
 
 int sum(const int elements, const int *array)
 {
-    // stop recursion if there are no elements left
     int result = 0;
+    
+    // stop recursion if there are no elements left
     if (elements == 0) {
         return 0;
     }
