@@ -19,7 +19,3 @@ Lectures
 8. Memory management
 9. Advanced topics I
 10. Advanced topics II
-
-Open Course Ware URL
---------------------
-http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-096-introduction-to-c-january-iap-2011
