@@ -135,7 +135,7 @@ int main(const int argc, const char *argv[])
     int a = 12, b = 73;
 
     // 7.1
-    char *test = (char *) "7.1 This is a test!";
+    char *test = (char *) "7.1 This is a test";
     cout << test << " (" << stringLength(test) << ")\n";
     
     // 7.2
