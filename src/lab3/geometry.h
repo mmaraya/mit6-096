@@ -27,12 +27,14 @@ using namespace std;
 class Point
 {
 private:
+
     int x, y;
     
 public:
     
     // default constructor
-    Point(int x = 0, int y = 0) {
+    Point(int x = 0, int y = 0)
+    {
         this->x = x;
         this->y = y;
     }
@@ -48,5 +50,119 @@ public:
     
     // setter for y
     void setY(const int y) { this->y = y; }
-        
+    
 };
+
+// overload the ostream << operator for Point
+ostream &operator<<(ostream &out, const Point &p)
+{
+    out << '(' << p.getX() << ',' << p.getY() << ')';
+    return out;
+}
+
+class PointArray
+{
+private:
+    
+    Point * points; // pointer to the start of an array of Points
+    int size; // size of the array
+    
+    // write a member function PointArray::resize(int n) that allocates a new array
+    // of size n, copies the first min(previous array size, n) existing elements into
+    // it, and deallocates the old array.
+    void resize(int n)
+    {
+        Point * newPoints = new Point[n];
+        
+        // copy the first min(previous array size, n) existing elements
+        for (int i = 0; i < (size < n ? size : n); i++)
+        {
+            newPoints[i] = points[i];
+        }
+        
+        // deallocate old array
+        delete[] points;
+        
+        // set new attributes
+        points = newPoints;
+        size = n;
+        
+        return;
+    }
+
+public:
+    
+    // Implement the default constructor (a constructor with no arguments) with
+    // the following signature. It should create an array with size 0.
+    PointArray()
+    {
+        size = 0;
+        points = new Point[size];
+    }
+    
+    // Implement a constructor that takes a Point array called points and an int
+    // called size as its arguments. It should initialize a PointArray with the
+    // specified size, copying the values from points. You will need to dynamically
+    // allocate the PointArray’s internal array to the specified size.
+    PointArray(const Point points[], const int size)
+    {
+        this->size = size;
+        this->points = new Point[size];
+        for (int i = 0; i < size; i++)
+        {
+            this->points[i] = points[i];
+        }
+    }
+    
+    // Finally, implement a constructor that creates a copy of a given PointArray
+    // (a copy constructor ). Make sure that the two PointArrays do not end up using the
+    // same memory for their internal arrays. Also make sure that the contents of the
+    // original array are copied, as well.
+    PointArray(const PointArray& pv)
+    {
+        size = pv.getSize();
+        points = new Point[size];
+        for(int i = 0; i < size; i++)
+        {
+            points[i] = pv.getPoints()[i];
+        }
+    }
+    
+    // Define a destructor that deletes the internal array of the PointArray.
+    ~PointArray()
+    {
+        delete[] points;
+    }
+
+    // getter for points
+    Point * getPoints() const { return points; }
+    
+    // getter for size
+    int getSize() const { return size; }
+
+    // Add a Point to the end of the array
+    void push_back(const Point &p)
+    {
+        resize(size + 1);
+        points[size -1] = p;
+        return;
+    }
+    
+};
+
+// overload the ostream << operator for PointArray
+ostream &operator<<(ostream &out, const PointArray &points)
+{
+    Point *p = points.getPoints();
+    out << '(' << p << ')' << ": ";
+    out << '{';
+    for (int i = 0; i < points.getSize(); i++)
+    {
+        out << *p++;
+        if (i < points.getSize() - 1) {
+            out << ',';
+        }
+    }
+    out << '}';
+    return out;
+}

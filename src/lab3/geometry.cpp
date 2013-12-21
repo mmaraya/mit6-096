@@ -23,22 +23,54 @@
 
 #include "geometry.h"
 
-int main(int argc, const char *argv[]) {
-    
+void lab3_sec3()
+{
     Point p1 = Point();
     Point p2 = Point(1, 2);
     
-    cout << p1.getX() << ',' << p1.getY() << '\n';
-    cout << p2.getX() << ',' << p2.getY() << '\n';
+    cout << p1 << '\n' << p2 << '\n';
     
     p1.setX(3);
     p1.setY(4);
     
+    cout << p1 << '\n';
+    
     p2.setX(5);
     p2.setY(6);
+    
+    cout << p2 << '\n';
+    
+    return;
+}
 
-    cout << p1.getX() << ',' << p1.getY() << '\n';
-    cout << p2.getX() << ',' << p2.getY() << '\n';
+void lab3_sec4()
+{
+    PointArray emptyArray = PointArray();
+    cout << "Empty PointAray: " << emptyArray << '\n';
+    
+    Point p1 = Point(1, 2);
+    Point one[1] = {p1};
+    PointArray singleArray = PointArray(one, 1);
+    cout << "Singe-element PointArray: " << singleArray << '\n';
+    
+    Point p2 = Point(3, 4);
+    Point two[2] = {p1, p2};
+    PointArray doubleArray = PointArray(two, 2);
+    cout << "Double-element PointArray: " << doubleArray << '\n';
+    
+    PointArray copy = doubleArray;
+    cout << "Copied PointArray: " << copy << '\n';
+    
+    Point p3 = Point(5, 6);
+    copy.push_back(p3);
+    cout << "Added Point: " << copy << '\n';
 
+    return;
+}
+
+int main(int argc, const char *argv[])
+{
+    lab3_sec3();
+    lab3_sec4();
     return 0;
 }
