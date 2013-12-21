@@ -151,7 +151,7 @@ int main(const int argc, const char *argv[])
     int x = 5, y = 6;
     int *ptr1 = &x, *ptr2 = &y;
     swap(&ptr1, &ptr2);
-    cout << "7.4 " << *ptr1 << ' ' << *ptr2 << '\n'; // Prints "6 5"
+    cout << "7.4 " << *ptr1 << ' ' << *ptr2 << '\n'; // should print "6 5"
     
     // 7.5
     lab2_sec7_5();
