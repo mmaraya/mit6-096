@@ -65,6 +65,26 @@ void lab3_sec4()
     copy.push_back(p3);
     cout << "Added Point: " << copy << '\n';
 
+    Point p4 = Point(7, 8);
+    copy.insert(1, p4);
+    cout << "Inserted at 1: " << copy << '\n';
+    
+    copy.remove(1);
+    cout << "Removed 1: " << copy << '\n';
+    
+    copy.clear();
+    cout << "Cleared: " << copy << '\n';
+    
+    PointArray bigArray = doubleArray;
+    bigArray.push_back(p3);
+    bigArray.push_back(p4);
+    bigArray.push_back(Point(9, 10));
+    bigArray.push_back(Point(11, 12));
+    cout << "Big Array: " << bigArray << '\n';
+    
+    Point *subset = bigArray.get(3);
+    cout << "Subset: " << *subset << '\n';
+    
     return;
 }
 

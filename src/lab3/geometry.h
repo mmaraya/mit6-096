@@ -76,9 +76,7 @@ private:
         
         // copy the first min(previous array size, n) existing elements
         for (int i = 0; i < (size < n ? size : n); i++)
-        {
             newPoints[i] = points[i];
-        }
         
         // deallocate old array
         delete[] points;
@@ -146,6 +144,65 @@ public:
         resize(size + 1);
         points[size -1] = p;
         return;
+    }
+    
+    // Insert a Point at some arbitrary position (subscript) of the array,
+    // shifting the elements past position to the right
+    void insert(const int position, const Point &p)
+    {
+        // increase the size of our array
+        resize(size + 1);
+        
+        // copy from the end of the array to insertion point
+        for (int i = size - 1; i > position; i--)
+            points[i] = points[i-1];
+        
+        // insert p
+        points[position] = p;
+        
+        return;
+    }
+    
+    // Remove the Point at some arbitrary position (subscript) of the array,
+    // shifting the remaining elements to the left
+    void remove(const int pos)
+    {
+        // shift elements from position onwards
+        for (int i = 0; i < size; i++)
+            if (i >= pos)
+                points[i] = points[i+1];
+        
+        // resize array
+        resize(size - 1);
+        
+        return;
+    }
+    
+    // Remove everything from the array and sets its size to 0
+    void clear()
+    {
+        // set all elents to NULL
+        for (int i = 0; i < size; i++)
+            points[i] = NULL;
+        
+        // set size to 0
+        size = 0;
+        
+        return;
+    }
+    
+    // Get a pointer to the element at some arbitrary position in the array,
+    // where positions start at 0 as with arrays
+    const Point * get(const int position) const
+    {
+        return &points[position];
+    }
+    
+    // Get a pointer to the element at some arbitrary position in the array,
+    // where positions start at 0 as with arrays
+    Point * get(const int position)
+    {
+        return &points[position];
     }
     
 };
