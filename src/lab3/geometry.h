@@ -223,3 +223,44 @@ ostream &operator<<(ostream &out, const PointArray &points)
     out << '}';
     return out;
 }
+
+// In this section you will implement a class for a convex polygon called Polygon.
+// A convex polygon is a simple polygon whose interior is a convex set; that is,
+// if for every pair of points within the object, every point on the straight line
+// segment that joins them is also within the object.
+// Polygon will be an abstract class – that is, it will be a placeholder in the class
+// hierarchy, but only its subclasses may be instantiated. Polygon will be an immutable
+// type – that is, once you create the Polygon, you will not be able to change it.
+class Polygon
+{
+protected:
+    
+    PointArray points;
+    static int count;
+    
+public:
+    
+    // Implement a constructor that creates a Polygon from two arguments: an array of
+    // Points and the length of that array. Use member initializer syntax to initialize
+    // the internal PointArray object of the Polygon, passing the Polygon constructor
+    // arguments to the PointArray con­ structor. You should need just one line of code in
+    // the actual constructor body.
+    const Polygon(const Point pointArray[], const int length)
+    {
+        points = PointArray(pointArray, length);
+        count++;
+    }
+    
+    // Implement a constructor that creates a polygon using the points in an existing
+    // PointArray that is passed as an argument. (For the purposes of this problem, you may
+    // assume that the order of the points in the PointArray traces out a convex polygon.)
+    // You should make sure your constructor avoids the unnecessary work of copying the
+    // entire existing PointArray each time it is called.
+    const Polygon(const PointArray points)
+    {
+        this->points = points;
+        count++;
+    }
+    
+};
+
