@@ -29,21 +29,17 @@ class Point
 private:
 
     int x, y;
-    
+
 public:
     
     // default constructor
-    Point(int x = 0, int y = 0)
-    {
-        this->x = x;
-        this->y = y;
-    }
+    Point(int x = 0, int y = 0) : x{x}, y{y} {}
     
     // getter for x
-    int getX() const { return x; }
+    const int getX() const { return x; }
     
     // getter for y
-    int getY() const { return y; }
+    const int getY() const { return y; }
     
     // setter for x
     void setX(const int x) { this->x = x; }
@@ -60,158 +56,36 @@ ostream &operator<<(ostream &out, const Point &p)
     return out;
 }
 
-class PointArray
-{
+class PointArray {
+
 private:
     
-    Point * points; // pointer to the start of an array of Points
-    int size; // size of the array
+    Point * points;
+    int size;
+    void resize(int n);
     
-    // write a member function PointArray::resize(int n) that allocates a new array
-    // of size n, copies the first min(previous array size, n) existing elements into
-    // it, and deallocates the old array.
-    void resize(int n)
-    {
-        Point * newPoints = new Point[n];
-        
-        // copy the first min(previous array size, n) existing elements
-        for (int i = 0; i < (size < n ? size : n); i++)
-            newPoints[i] = points[i];
-        
-        // deallocate old array
-        delete[] points;
-        
-        // set new attributes
-        points = newPoints;
-        size = n;
-        
-        return;
-    }
-
 public:
     
-    // Implement the default constructor (a constructor with no arguments) with
-    // the following signature. It should create an array with size 0.
-    PointArray()
-    {
-        size = 0;
-        points = new Point[size];
-    }
+    PointArray();
+    PointArray(const Point points[], const int size);
+    PointArray(const PointArray &pv);
+    ~PointArray();
     
-    // Implement a constructor that takes a Point array called points and an int
-    // called size as its arguments. It should initialize a PointArray with the
-    // specified size, copying the values from points. You will need to dynamically
-    // allocate the PointArray’s internal array to the specified size.
-    PointArray(const Point points[], const int size)
-    {
-        this->size = size;
-        this->points = new Point[size];
-        for (int i = 0; i < size; i++)
-        {
-            this->points[i] = points[i];
-        }
-    }
-    
-    // Finally, implement a constructor that creates a copy of a given PointArray
-    // (a copy constructor ). Make sure that the two PointArrays do not end up using the
-    // same memory for their internal arrays. Also make sure that the contents of the
-    // original array are copied, as well.
-    PointArray(const PointArray& pv)
-    {
-        size = pv.getSize();
-        points = new Point[size];
-        for(int i = 0; i < size; i++)
-        {
-            points[i] = pv.getPoints()[i];
-        }
-    }
-    
-    // Define a destructor that deletes the internal array of the PointArray.
-    ~PointArray()
-    {
-        delete[] points;
-    }
-
-    // getter for points
-    Point * getPoints() const { return points; }
-    
-    // getter for size
     int getSize() const { return size; }
+    Point * getPoints() const { return points; }
 
-    // Add a Point to the end of the array
-    void push_back(const Point &p)
-    {
-        resize(size + 1);
-        points[size -1] = p;
-        return;
-    }
-    
-    // Insert a Point at some arbitrary position (subscript) of the array,
-    // shifting the elements past position to the right
-    void insert(const int position, const Point &p)
-    {
-        // increase the size of our array
-        resize(size + 1);
-        
-        // copy from the end of the array to insertion point
-        for (int i = size - 1; i > position; i--)
-            points[i] = points[i-1];
-        
-        // insert p
-        points[position] = p;
-        
-        return;
-    }
-    
-    // Remove the Point at some arbitrary position (subscript) of the array,
-    // shifting the remaining elements to the left
-    void remove(const int pos)
-    {
-        // shift elements from position onwards
-        for (int i = 0; i < size; i++)
-            if (i >= pos)
-                points[i] = points[i+1];
-        
-        // resize array
-        resize(size - 1);
-        
-        return;
-    }
-    
-    // Remove everything from the array and sets its size to 0
-    void clear()
-    {
-        // set all elents to NULL
-        for (int i = 0; i < size; i++)
-            points[i] = NULL;
-        
-        // set size to 0
-        size = 0;
-        
-        return;
-    }
-    
-    // Get a pointer to the element at some arbitrary position in the array,
-    // where positions start at 0 as with arrays
-    const Point * get(const int position) const
-    {
-        return &points[position];
-    }
-    
-    // Get a pointer to the element at some arbitrary position in the array,
-    // where positions start at 0 as with arrays
-    Point * get(const int position)
-    {
-        return &points[position];
-    }
-    
+    void clear();
+    void push_back(const Point &p);
+    void insert(const int position, const Point &p);
+    void remove(const int pos);
+    Point * get(const int position);
+    const Point * get(const int position) const;
 };
 
 // overload the ostream << operator for PointArray
 ostream &operator<<(ostream &out, const PointArray &points)
 {
     Point *p = points.getPoints();
-    out << '(' << p << ')' << ": ";
     out << '{';
     for (int i = 0; i < points.getSize(); i++)
     {
@@ -240,27 +114,17 @@ protected:
     
 public:
     
-    // Implement a constructor that creates a Polygon from two arguments: an array of
-    // Points and the length of that array. Use member initializer syntax to initialize
-    // the internal PointArray object of the Polygon, passing the Polygon constructor
-    // arguments to the PointArray con­ structor. You should need just one line of code in
-    // the actual constructor body.
-    const Polygon(const Point pointArray[], const int length)
-    {
-        points = PointArray(pointArray, length);
-        count++;
-    }
-    
-    // Implement a constructor that creates a polygon using the points in an existing
-    // PointArray that is passed as an argument. (For the purposes of this problem, you may
-    // assume that the order of the points in the PointArray traces out a convex polygon.)
-    // You should make sure your constructor avoids the unnecessary work of copying the
-    // entire existing PointArray each time it is called.
-    const Polygon(const PointArray points)
-    {
-        this->points = points;
-        count++;
-    }
+    Polygon(const PointArray &pa);
+    Polygon(const Point pa[], const int length);
+    ~Polygon() { count--; }
+    const PointArray getPointArray() const { return points; }
+    const int getCount() const { return count; }
     
 };
 
+// overload the ostream << operator for Polygon
+ostream &operator<<(ostream &out, const Polygon &poly)
+{
+    out << poly.getPointArray() << '(' << poly.getCount() << ')';
+    return out;
+}
