@@ -22,31 +22,20 @@
 //
 
 #include <iostream>
+#include <cmath>
 using namespace std;
 
-class Point
-{
+class Point {
 private:
-
     int x, y;
 
 public:
-    
-    // default constructor
     Point(int x = 0, int y = 0) : x{x}, y{y} {}
-    
-    // getter for x
     const int getX() const { return x; }
-    
-    // getter for y
     const int getY() const { return y; }
-    
-    // setter for x
     void setX(const int x) { this->x = x; }
-    
-    // setter for y
     void setY(const int y) { this->y = y; }
-    
+    double distance(const Point &b);
 };
 
 // overload the ostream << operator for Point
@@ -57,15 +46,12 @@ ostream &operator<<(ostream &out, const Point &p)
 }
 
 class PointArray {
-
 private:
-    
     Point * points;
     int size;
     void resize(int n);
     
 public:
-    
     PointArray();
     PointArray(const Point points[], const int size);
     PointArray(const PointArray &pv);
@@ -105,26 +91,40 @@ ostream &operator<<(ostream &out, const PointArray &points)
 // Polygon will be an abstract class – that is, it will be a placeholder in the class
 // hierarchy, but only its subclasses may be instantiated. Polygon will be an immutable
 // type – that is, once you create the Polygon, you will not be able to change it.
-class Polygon
-{
+class Polygon {
+
 protected:
-    
     PointArray points;
     static int count;
     
 public:
-    
     Polygon(const PointArray &pa);
     Polygon(const Point pa[], const int length);
     ~Polygon() { count--; }
-    const PointArray getPointArray() const { return points; }
-    const int getCount() const { return count; }
-    
+    const PointArray getPoints() const { return points; }
+    static int getNumPolygons() { return count; }
+    virtual double area() = 0;
+    int getNumSides();
 };
 
 // overload the ostream << operator for Polygon
 ostream &operator<<(ostream &out, const Polygon &poly)
 {
-    out << poly.getPointArray() << '(' << poly.getCount() << ')';
+    out << poly.getPoints() << '(' << poly.getNumPolygons() << ')';
     return out;
 }
+
+// Write a subclass of Polygon called Rectangle that models a rectangle
+class Rectangle : public Polygon {
+public:
+    Rectangle(const Point &lowerLeft, const Point &upperRight);
+    Rectangle(const int a, const int b, const int c, const int d);
+    virtual double area() override;
+};
+
+// Write a subclass of Polygon called Triangle that models a triangle.
+class Triangle : public Polygon {
+public:
+    Triangle(const Point &a, const Point &b, const Point &c);
+    virtual double area() override;
+};

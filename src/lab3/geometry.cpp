@@ -23,8 +23,14 @@
 
 #include "geometry.h"
 
-void lab3_sec3()
-{
+// return the distance to another Point
+double Point::distance(const Point &p) {
+    double a = abs(p.getX() - getX());
+    double b = abs(p.getY() - getY());
+    return sqrt(a * a + b * b);
+}
+
+void lab3_sec3() {
     Point p1 = Point();
     Point p2 = Point(1, 2);
     
@@ -39,8 +45,6 @@ void lab3_sec3()
     p2.setY(6);
     
     cout << p2 << '\n';
-    
-    return;
 }
 
 // Implement the default constructor (a constructor with no arguments) with
@@ -219,29 +223,100 @@ Polygon::Polygon(const PointArray &pa) : points{pa} {
 // the internal PointArray object of the Polygon, passing the Polygon constructor
 // arguments to the PointArray con­structor. You should need just one line of code in
 // the actual constructor body.
-Polygon::Polygon(const Point pa[], const int length)
-{
-    points = PointArray(pa, length);;
+Polygon::Polygon(const Point pa[], const int length) : points(pa, length) {
     count++;
 }
 
-void lab3_sec5()
+// Returns the number of sides of the Polygon.
+int Polygon::getNumSides()
 {
-    Point p1[] = {Point(1,2), Point(3,4), Point(5,6), Point(7,8)};
-    PointArray pa1 = PointArray(p1, 4);
-    Polygon poly1 = Polygon(pa1);
-    cout << "Polygon 1: " << poly1 << '\n';
+    return points.getSize();
+}
+
+// Allow constructing a Rectangle from two Points (the lower left coordinate and
+// the upper right coordinate)
+
+Point constructorPoints[4];
+Point *updateConstructorPoints(const Point &p1, const Point &p2, const Point &p3,
+                               const Point &p4 = Point(0,0)) {
+    constructorPoints[0] = p1;
+    constructorPoints[1] = p2;
+    constructorPoints[2] = p3;
+    constructorPoints[3] = p4;
+    return constructorPoints;
+}
+
+// Allow constructing a Rectangle from two Points (the lower left coordinate and the
+// upper right coordinate)
+Rectangle::Rectangle(const Point &ll, const Point &ur) :
+Polygon{updateConstructorPoints(ll, Point(ll.getX(), ur.getY()), Point(ur.getX(), ll.getY()), ur), 4} {}
+
+// Allow constructing a Rectangle from four ints
+Rectangle::Rectangle(const int a, const int b, const int c, const int d) :
+Polygon{updateConstructorPoints(Point(a,b), Point(a,d), Point(c,b), Point(c,d)), 4} {}
+
+// Override the Polygon::area’s behavior such that the rectangle’s area is calculated
+// by multiplying its length by its width, but still return the area as a double.
+double Rectangle::area() {
+    if (points.getSize() != 4) return 0;
     
-    Point p2[] = {Point(10,20), Point(30,40), Point(50,60), Point(70,80)};
-    PointArray pa2 = PointArray(p2, 4);
-    Polygon poly2 = Polygon(pa2);
-    cout << "Polygon 2: " << poly2 << '\n';
+    // find the lower left and upper right points
+    Point ll = points.getPoints()[0], ur = points.getPoints()[0];
+    for (int i = 0; i < points.getSize(); i++) {
+        Point test = points.getPoints()[i];
+        if (test.getX() < ll.getX() || test.getY() < ll.getY())
+            ll = test;
+        if (test.getY() > ur.getY() || test.getX() > ur.getX())
+            ur = test;
+    }
+    
+    // compute and return area
+    int length = abs(ur.getX() - ll.getX());
+    int height = abs(ur.getY() - ll.getY());
+    return (double) length * height / 2;
+}
+
+// Construct a Triangle from three Points
+Triangle::Triangle(const Point &a, const Point &b, const Point &c) :
+Polygon(updateConstructorPoints(a, b, c), 3) {}
+
+// Override the area function such that it calculates the area using Heron’s formula
+double Triangle::area() {
+    
+    Point p1 = getPoints().getPoints()[0];
+    Point p2 = getPoints().getPoints()[1];
+    Point p3 = getPoints().getPoints()[2];
+    
+    // get lengths of the sides
+    double a = p1.distance(p2);
+    double b = p2.distance(p3);
+    double c = p3.distance(p1);
+    
+    // compute s
+    double s = (double) (a + b + c) / 2;
+    
+    // compute area using Heron's formula
+    return sqrt(s * (s - a) * (s - b) * (s - c));
+}
+
+// Write a small function with signature void printAttributes(Polygon *) that prints
+// the area of the polygon and prints the (x, y) coordinates of all of its points.
+void printAttributes(Polygon *poly) {
+    cout << "PointArray: " << poly->getPoints() << ", Area: " << poly->area() << '\n';
+}
+
+void lab3_sec5() {
+    Rectangle r = Rectangle(0, 1, 3, 5);
+    printAttributes(&r);
+
+    Triangle t = Triangle(Point(0,0), Point(0,2), Point(2,0));
+    printAttributes(&t);
 }
 
 int main(const int argc, const char *argv[])
 {
-    // lab3_sec3();
-    // lab3_sec4();
+    lab3_sec3();
+    lab3_sec4();
     lab3_sec5();
     return 0;
 }
