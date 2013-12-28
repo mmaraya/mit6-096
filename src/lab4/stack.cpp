@@ -27,6 +27,7 @@ int main(const int argc, const char* argv[]) {
     
     Stack<int> stack;
     
+    // section 4.1
     if (stack.empty()) {
         cout << "Stack is empty\n";
     } else {
@@ -46,6 +47,19 @@ int main(const int argc, const char* argv[]) {
         cout << "Stack is empty\n";
     } else {
         cout << "Stack is not empty\n";
+    }
+    
+    // section 4.2
+    Stack<int> a, b;
+    a.push(1);
+    a.push(2);
+    b.push(3);
+    b.push(4);
+    Stack<int> c = a + b;
+
+    while (!c.empty()) {
+        cout << c.top() << ' ';
+        c.pop();
     }
     
     return 0;

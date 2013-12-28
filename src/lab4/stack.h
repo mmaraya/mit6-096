@@ -22,16 +22,20 @@
 //
 
 #include <iostream>
-#include <list>
+#include <vector>
 using namespace std;
+
+template <class T> class Stack;
+template<class T> Stack<T> operator+(const Stack<T> &s1, const Stack<T> &s2);
 
 // Using templates, implement a Stack class that can be used to store items of any type.
 template <class T>
 class Stack {
 
 private:
-    list<T> items;
-
+    friend Stack<T> operator+<>(const Stack<T> &s1, const Stack<T> &s2);
+    vector<T> items;
+    
 public:
     
     // You do not need to implement any constructors or destructors; the default
@@ -57,4 +61,18 @@ public:
     void pop() {
         items.pop_back();
     }
+    
 };
+
+// Make a friend function that implements a + operator for Stacks.
+template<class T>
+Stack<T> operator+(const Stack<T> &s1, const Stack<T> &s2) {
+    Stack<T> result = s1;
+    for(int i = 0; i < s2.items.size(); ++i) {
+        result.items.push_back(s2.items[i]);
+    }
+    return result;
+}
+
+
+
